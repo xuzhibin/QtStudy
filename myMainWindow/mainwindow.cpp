@@ -4,6 +4,9 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QLineEdit>
+#include <QDialog>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +34,15 @@ MainWindow::MainWindow(QWidget *parent) :
     // 初始化窗口标题为文件名
     setWindowTitle(curFile);
 
+
+    findDlg = new QDialog(this);
+    findDlg->setWindowTitle(tr("查找"));
+    findLineEdit = new QLineEdit(findDlg);
+    QPushButton *btn= new QPushButton(tr("查找下一个"), findDlg);
+    QVBoxLayout *layout= new QVBoxLayout(findDlg);
+    layout->addWidget(findLineEdit);
+    layout->addWidget(btn);
+    connect(btn, SIGNAL(clicked()), this, SLOT(showFindText()));
 }
 
 MainWindow::~MainWindow()
@@ -193,8 +205,20 @@ void MainWindow::on_action_Copy_triggered()
 // 粘贴动作
 void MainWindow::on_action_Paste_triggered()
 {
-   ui->textEdit->paste();
+    ui->textEdit->paste();
 }
+
+void MainWindow::showFindText()
+{
+    QString str= findLineEdit->text();
+    if (!ui->textEdit->find(str, QTextDocument::FindBackward))
+    {
+        QMessageBox::warning(this, tr("查找"),
+               tr("找不到%1").arg(str));
+    }
+}
+
+
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -204,4 +228,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
    } else {   // 否则忽略该事件
        event->ignore();
    }
+}
+
+void MainWindow::on_action_Find_triggered()
+{
+    findDlg->show();
 }

@@ -4,8 +4,12 @@
 #include <QMainWindow>
 #include <QCloseEvent>
 
+class QLineEdit;
+class QDialog;
+
 namespace Ui {
 class MainWindow;
+
 }
 
 class MainWindow : public QMainWindow
@@ -37,12 +41,19 @@ private slots:
     void on_action_Copy_triggered();
     void on_action_Paste_triggered();
 
+    void showFindText();
+
+    void on_action_Find_triggered();
+
 private:
     Ui::MainWindow *ui;
     // 为真表示文件没有保存过，为假表示文件已经被保存过了
     bool isUntitled;
     // 保存当前文件的路径
     QString curFile;
+
+    QLineEdit *findLineEdit;
+    QDialog *findDlg;
 
 protected:
     void closeEvent(QCloseEvent *event); // 关闭事件
