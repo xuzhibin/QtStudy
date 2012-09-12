@@ -6,6 +6,7 @@
 
 class QLineEdit;
 class QDialog;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -54,6 +55,7 @@ private:
 
     QLineEdit *findLineEdit;
     QDialog *findDlg;
+    QLabel *statusLabel;
 
 protected:
     void closeEvent(QCloseEvent *event); // 关闭事件

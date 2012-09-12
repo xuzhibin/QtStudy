@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QLineEdit>
 #include <QDialog>
+#include <QLabel>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -43,6 +44,21 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(findLineEdit);
     layout->addWidget(btn);
     connect(btn, SIGNAL(clicked()), this, SLOT(showFindText()));
+
+    statusLabel = new QLabel;
+    statusLabel->setMinimumSize(150, 20); // 设置标签最小大小
+    statusLabel->setFrameShape(QFrame::WinPanel); // 设置标签形状
+    statusLabel->setFrameShadow(QFrame::Sunken); // 设置标签阴影
+    ui->statusBar->addWidget(statusLabel);
+    statusLabel->setText(tr("欢迎访问Qt爱好者社区！"));
+
+    QLabel *permanent = new QLabel(this);
+    permanent->setFrameStyle(QFrame::Box | QFrame::Sunken);
+    permanent->setText(
+      tr("<a href=\"http://www.yafeilinux.com\">yafeilinux.com</a>"));
+    permanent->setTextFormat(Qt::RichText);
+    permanent->setOpenExternalLinks(true);
+    ui->statusBar->addPermanentWidget(permanent);
 }
 
 MainWindow::~MainWindow()
